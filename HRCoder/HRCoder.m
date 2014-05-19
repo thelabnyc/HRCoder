@@ -352,19 +352,22 @@ NSString *const HRCoderBase64DataKey = @"$data";
 {
     if (object && key)
     {
-        if (![object isKindOfClass:[NSNumber class]] &&
-            ![object isKindOfClass:[NSDate class]] &&
-            (![object isKindOfClass:[NSString class]] || [(NSString *)object length] < 32))
-        {
-            for (__unsafe_unretained NSString *aliasKeyPath in _knownObjects)
-            {
-                if (_knownObjects[aliasKeyPath] == object)
-                {
-                    //create alias
-                    return @{HRCoderObjectAliasKey: aliasKeyPath};
-                }
-            }
-        }
+// LK
+// Aliasing is crashing on load with nested objects of same type
+//
+//        if (![object isKindOfClass:[NSNumber class]] &&
+//            ![object isKindOfClass:[NSDate class]] &&
+//            (![object isKindOfClass:[NSString class]] || [(NSString *)object length] < 32))
+//        {
+//            for (__unsafe_unretained NSString *aliasKeyPath in _knownObjects)
+//            {
+//                if (_knownObjects[aliasKeyPath] == object)
+//                {
+//                    //create alias
+//                    return @{HRCoderObjectAliasKey: aliasKeyPath};
+//                }
+//            }
+//        }
         
         //encode object
         __autoreleasing NSString *oldKeyPath = _keyPath;
